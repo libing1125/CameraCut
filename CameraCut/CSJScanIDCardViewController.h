@@ -6,11 +6,11 @@
 //  Copyright © 2019 CSJ Golden Bull (Beijing) Investment Consulting Co., Ltd. All rights reserved.
 //
 
-#import "CSJBaseViewController.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface CSJScanIDCardViewController : CSJBaseViewController
+@interface CSJScanIDCardViewController : UIViewController
 @property(nonatomic,copy) void(^imageBackBlock)(UIImage *image);
 @end
 

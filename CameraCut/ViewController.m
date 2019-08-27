@@ -7,8 +7,9 @@
 //
 
 #import "ViewController.h"
-
+#import "CSJScanIDCardViewController.h"
 @interface ViewController ()
+@property (weak, nonatomic) IBOutlet UIImageView *ImageView;
 
 @end
 
@@ -19,5 +20,15 @@
     // Do any additional setup after loading the view.
 }
 
+- (IBAction)takePicture:(UIButton *)sender {
+    CSJScanIDCardViewController * scVC = [[CSJScanIDCardViewController alloc]init];
+    scVC.imageBackBlock = ^(UIImage * _Nonnull image) {
+        
+        self.ImageView.image = image;
+            
+       
+    };
+    [self.navigationController pushViewController:scVC animated:YES];
+}
 
 @end

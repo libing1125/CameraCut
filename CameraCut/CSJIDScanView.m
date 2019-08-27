@@ -7,7 +7,7 @@
 //
 
 #import "CSJIDScanView.h"
-
+#import "UIColor+UIColorFromRGB.h"
 
 
 @interface CSJIDScanView ()
@@ -36,7 +36,7 @@
 -(void)drawRect:(CGRect)rect
 {
     [super drawRect:rect];
-    DLog(@"nss %@",NSStringFromCGRect(rect));
+    
     _borderColor = [UIColor whiteColor];
     _conerColor = [UIColor colorWithRed:255 Green:132 Blue:0];
     
@@ -57,7 +57,7 @@
     UIBezierPath *bezeierPath = [UIBezierPath bezierPathWithRect:rect];
     
     UIBezierPath *borderPath = [UIBezierPath bezierPathWithRect:CGRectMake(borderX, borderY, borderW, borderH)];
-    DLog(@"nss2 %@",NSStringFromCGRect(CGRectMake(borderX, borderY, borderW, borderH)));
+    
     
     [bezeierPath appendPath:borderPath];
     bezeierPath.usesEvenOddFillRule = YES;

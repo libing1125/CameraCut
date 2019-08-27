@@ -7,13 +7,15 @@
 //
 
 #import "CSJScanIDCardViewController.h"
+#import "UIColor+UIColorFromRGB.h"
 #import "CSJIDScanView.h"
 #import <Photos/Photos.h>
+#import "Masonry/Masonry/Masonry.h"
 @interface CSJScanIDCardViewController ()<AVCaptureMetadataOutputObjectsDelegate,UIAlertViewDelegate,CAAnimationDelegate,AVCapturePhotoCaptureDelegate>
 
 @property(nonatomic,strong) CSJIDScanView *scanView;
-@property (nonatomic,strong) UILabel *tipLabel;
-@property (nonatomic,strong) UIImage *selectedImage;
+@property (nonatomic,strong) UILabel *tipLabel;//提示label
+@property (nonatomic,strong) UIImage *selectedImage;//裁剪好的image
 @property (nonatomic,strong) UIImageView *takedImageView;
 @property (nonatomic,strong) UIButton *takePictureBtn;//拍
 @property (nonatomic,strong) UIButton *retakeBtn;//重拍
@@ -35,13 +37,13 @@
 
 -(void)dealloc
 {
-    DLog(@"CSJScanIDCardViewController-dealloc");
+    NSLog(@"CSJScanIDCardViewController-dealloc");
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
-    [self addBackButton];
+    
     [self interfaceOrientation:UIInterfaceOrientationLandscapeRight];
     
     //自定义相机
@@ -68,7 +70,7 @@
     self.scanView = [[CSJIDScanView alloc]init];
     self.scanView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.scanView];
-    [self.scanView makeConstraints:^(MASConstraintMaker *make) {
+    [self.scanView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view).insets(UIEdgeInsetsZero);
     }];
     
@@ -87,11 +89,10 @@
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn addTarget:self action:@selector(popViewController) forControlEvents:UIControlEventTouchUpInside];
-    [btn setImage:[UIImage imageNamed:@"nav_back_black"] forState:UIControlStateNormal];
+    [btn setImage:[UIImage imageNamed:@"back_black"] forState:UIControlStateNormal];
     [btn sizeToFit];
     btn.frame = CGRectMake(getRectNavAndStatusHight, 20, 50, 50);
     btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    btn.lx_width = 50.f;
     [self.view addSubview:btn];
     
     _takePictureBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -244,7 +245,7 @@
     
     CGImageRef newImageRef = CGImageCreateWithImageInRect(sourceImageRef, clipedRect);
     UIImage *newImage = [UIImage imageWithCGImage:newImageRef];
-    DLog(@"newImage=%@",NSStringFromCGSize(newImage.size));
+    NSLog(@"newImage=%@",NSStringFromCGSize(newImage.size));
     CGImageRelease(newImageRef);
     
     
@@ -256,7 +257,7 @@
     [newImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
     UIImage *compressImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    DLog(@"newImage=%@",NSStringFromCGSize(compressImage.size));
+    NSLog(@"newImage=%@",NSStringFromCGSize(compressImage.size));
     
     self.takedImageView.image = compressImage;
     
